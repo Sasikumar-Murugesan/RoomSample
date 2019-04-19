@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">RoomSample</string>
+    <string name="user_name">User Name</string>
+    <string name="male">Male</string>
+    <string name="save">Save</string>
+    <string name="female">Female</string>
+    <string name="user_list">User List</string>
+</resources>
