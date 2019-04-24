@@ -8,26 +8,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.sasi.roomsample.R
 import com.sasi.roomsample.adapter.CommonListAdapter
+import com.sasi.roomsample.adapter.PaggingListAdapter
 import com.sasi.roomsample.databinding.ActivityRegisterationBinding
 import com.sasi.roomsample.room.tables.UserTable
 import com.sasi.roomsample.viewmodel.RegisterationVM
 
 class RegisterationActivity : AppCompatActivity() {
-    var viewModel: RegisterationVM? = null
+
+    val viewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProviders.of(this).get(RegisterationVM::class.java)
+    }
     lateinit var binding: ActivityRegisterationBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_registeration)
-        val adapter = CommonListAdapter()
+        val adapter = PaggingListAdapter()
         binding.rvUsersList.adapter = adapter
-        viewModel = ViewModelProviders.of(this).get(RegisterationVM::class.java)
         binding.viewmodel = viewModel
-        viewModel?.usersList?.observe(this, Observer {
-            for (userTable in it) {
-                Log.v("${userTable.id}", "${userTable.username},${userTable.time}")
-            }
-            adapter.updateUserList(it)
-        })
-
+        viewModel?.usersList?.observe(this, Observer(adapter::submitList))
     }
 }

@@ -37,8 +37,13 @@ class CommonListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             }
         }
 
-    }
+        fun bindTo(item: UserTable?) {
+            item?.let {
+                binding.viewModel = UserListVM(it)
+            }
+        }
 
+    }
     fun updateUserList(userInfoList: List<UserTable>) {
         this.userList = userInfoList
         notifyDataSetChanged()
